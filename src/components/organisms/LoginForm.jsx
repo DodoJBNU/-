@@ -3,14 +3,18 @@ import InputGroup from '../molecules/InputGroup';
 import Button from '../atoms/Button';
 import { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
-import { register } from '../../services/api';
+import { login } from '../../services/api';
+import Title from '../atoms/Title';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginRequest, setEmail } from '../../store/slices/userSlice';
 
-const RegisterForm = () => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const email = useSelector(state => state.user.email);
+
   const { value, handleOnChange } = useInput({
-    username: '',
     email: '',
     password: '',
-    passwordConfirm: '',
   });
 
   useEffect(() => {
@@ -25,15 +29,8 @@ const RegisterForm = () => {
   });
   return (
     <Container>
-      <InputGroup
-        id="username"
-        name="username"
-        type="text"
-        placeholder="사용자 이름을 입력해주세요."
-        label="이름"
-        value={value.username}
-        onChange={handleOnChange}
-      />
+      <Title>로그인</Title>
+      <span>{email}</span>
       <InputGroup
         id="email"
         name="email"
@@ -52,29 +49,21 @@ const RegisterForm = () => {
         value={value.password}
         onChange={handleOnChange}
       />
-      <InputGroup
-        id="passwordConfirm"
-        name="passwordConfirm"
-        type="password"
-        placeholder="*********"
-        label="비밀번호 확인"
-        value={value.passwordConfirm}
-        onChange={handleOnChange}
-      />
       <Button
         onClick={() => {
-          // api 회원가입 요청
-          register({
-            email: value.email,
-            password: value.password,
-            username: value.username,
-          });
+          // api 로그인 요청
+          dispatch(
+            loginRequest({
+              email: value.email,
+              password: value.password,
+            })
+          );
         }}
       >
-        회원가입
+        로그인
       </Button>
     </Container>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

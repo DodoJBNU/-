@@ -1,34 +1,45 @@
-import axios from "axios";
-import { response } from "express";
+import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // production : http://api.myapp.com
+export const instance = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 1000,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+instance.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
   if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers['Authorization'] = token;
   }
   return config;
 });
 
 instance.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  (error) => {}
+  error => {}
 );
 
-export const register = ({ data }) => {
+export const register = data => {
   const { email, password, username } = data;
-  return instance.post("/join", {
+  return instance.post('/join', {
     email,
     password,
     username,
   });
+};
+
+export const login = data => {
+  const { email, password } = data;
+  return instance.post('/login', {
+    email,
+    password,
+  });
+};
+
+export const fetchProducts = (page = 0) => {
+  return instance.get('/products' + '?page=' + page);
 };
