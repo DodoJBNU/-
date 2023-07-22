@@ -1,29 +1,16 @@
 // 앱에는 단 하나의 스토어가 존재함.
 // 모든 redux로 담은 데이터가 한 곳에 담기는 장소.
 
-import { all } from 'redux-saga/effects';
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/userSlice';
-import productReducer from './slices/productSlice';
-import createSagaMiddleware from 'redux-saga';
-import getProductSaga from './sagas/product';
-
-const sagaMiddleware = createSagaMiddleware();
-
-function* rootSaga() {
-  yield all([getProductSaga]);
-}
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./slices/userSlice";
+import productReducer from "./slices/productSlice";
 
 const store = configureStore({
   reducer: {
     // User reducer: email
     user: userReducer,
-    product: productReducer,
   },
-  middleware: [sagaMiddleware],
 });
-
-sagaMiddleware.run(rootSaga);
 
 export default store;
 
