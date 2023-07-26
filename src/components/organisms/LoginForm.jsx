@@ -1,11 +1,8 @@
-import Container from "../atoms/Container";
-import InputGroup from "../molecules/InputGroup";
-import Button from "../atoms/Button";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useInput from "../../hooks/useInput";
-import Title from "../atoms/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../../store/slices/userSlice";
+import * as S from "../../../src/styles/organisms/LoginForm";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -20,35 +17,28 @@ const LoginForm = () => {
     console.log(value.username);
   }, [value.username]);
 
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  });
   return (
-    <Container>
-      <Title>로그인</Title>
+    <S.Container>
       <span>{email}</span>
-      <InputGroup
+      <S.Input
         id="email"
         name="email"
         type="email"
-        placeholder="이메일(아이디)를 입력해주세요."
+        placeholder="이메일"
         label="이메일"
         value={value.email}
         onChange={handleOnChange}
       />
-      <InputGroup
+      <S.Input
         id="password"
         name="password"
         type="password"
-        placeholder="*********"
+        placeholder="비밀번호"
         label="비밀번호"
         value={value.password}
         onChange={handleOnChange}
       />
-      <Button
+      <S.Button
         onClick={() => {
           // api 로그인 요청
           dispatch(
@@ -60,8 +50,8 @@ const LoginForm = () => {
         }}
       >
         로그인
-      </Button>
-    </Container>
+      </S.Button>
+    </S.Container>
   );
 };
 
