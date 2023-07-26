@@ -1,7 +1,7 @@
-import "../../styles/atoms/Container.css";
+import * as S from "../../styles/atoms/Container";
 
 const Container = ({ children, className = "" }) => {
-  return <div className={`Container ${className}`}>{children}</div>;
+  return <S.Container className={`Container ${className}`}>{children}</S.Container>;
 };
 
 export default Container;
