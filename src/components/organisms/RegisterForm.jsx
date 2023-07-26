@@ -1,79 +1,100 @@
-import Container from '../atoms/Container';
-import InputGroup from '../molecules/InputGroup';
-import Button from '../atoms/Button';
-import { useEffect, useState } from 'react';
-import useInput from '../../hooks/useInput';
-import { register } from '../../services/api';
+import Button from "../atoms/Button";
+import { useEffect, useState } from "react";
+import useInput from "../../hooks/useInput";
+import { register } from "../../services/api";
+import useRegexCheck from "../../hooks/useRegexCheck";
+import * as S from "../../styles/organisms/RegisterForm";
 
 const RegisterForm = () => {
-  const { value, handleOnChange } = useInput({
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const initialState = {
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  };
+  const [serverErrorMsg, setServerErrorMsg] = useState("");
+  const [errorData, setErrorData] = useState(initialState);
+  const { value, handleOnChange } = useInput(initialState);
+  const { handleOnRegex } = useRegexCheck(initialState, errorData, setErrorData);
 
-  useEffect(() => {
-    console.log(value.username);
-  }, [value.username]);
+  const isAllTrueError = () => {
+    return Object.values(errorData).every((value) => value === true);
+  };
 
-  const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const handleRegister = async () => {
+    try {
+      const response = await register({
+        email: value.email,
+        password: value.password,
+        username: value.username,
+      });
+      console.log("회원가입 성공", response.data);
+    } catch (error) {
+      setServerErrorMsg(() => error.response.data.error.message);
+    }
+  };
   return (
-    <Container>
-      <InputGroup
-        id="username"
-        name="username"
-        type="text"
-        placeholder="사용자 이름을 입력해주세요."
-        label="이름"
-        value={value.username}
-        onChange={handleOnChange}
-      />
-      <InputGroup
+    <S.Container>
+      <S.InputGroup
         id="email"
         name="email"
         type="email"
-        placeholder="이메일(아이디)를 입력해주세요."
+        placeholder="이메일"
         label="이메일"
         value={value.email}
         onChange={handleOnChange}
+        onBlur={() => handleOnRegex("email", value)}
+        errorData={errorData}
+        headerText={"이메일 (아이디)"}
       />
-      <InputGroup
+      <S.InputGroup
+        id="username"
+        name="username"
+        className="username"
+        type="text"
+        placeholder="이름"
+        label="이름"
+        value={value.username}
+        onChange={handleOnChange}
+        onBlur={() => handleOnRegex("username", value)}
+        errorData={errorData}
+        headerText={"이름"}
+      />
+      <S.InputGroup
         id="password"
         name="password"
         type="password"
-        placeholder="*********"
+        placeholder="비밀번호"
         label="비밀번호"
         value={value.password}
         onChange={handleOnChange}
+        onBlur={() => handleOnRegex("password", value)}
+        errorData={errorData}
+        headerText={"비밀번호"}
       />
-      <InputGroup
+      <S.InputGroup
         id="passwordConfirm"
         name="passwordConfirm"
         type="password"
-        placeholder="*********"
+        placeholder="비밀번호 확인"
         label="비밀번호 확인"
         value={value.passwordConfirm}
         onChange={handleOnChange}
+        onBlur={() => handleOnRegex("passwordConfirm", value)}
+        errorData={errorData}
+        headerText={"비밀번호 확인"}
       />
-      <Button
+      {serverErrorMsg ? <div style={{ color: "red" }}>{serverErrorMsg}</div> : null}
+      <S.Button
         onClick={() => {
           // api 회원가입 요청
-          register({
-            email: value.email,
-            password: value.password,
-            username: value.username,
-          });
+          handleRegister();
         }}
+        disabled={!isAllTrueError()}
       >
         회원가입
-      </Button>
-    </Container>
+      </S.Button>
+    </S.Container>
   );
 };
 
