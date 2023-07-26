@@ -1,7 +1,7 @@
-import "../../styles/atoms/Box.css";
+import * as box from "../../styles/atoms/Box";
 
 const Box = ({ children, className = "" }) => {
-  return <div className={`box ${className}`}>{children}</div>;
+  return <box.Box className={`box ${className}`}>{children}</box.Box>;
 };
 
 export default Box;
