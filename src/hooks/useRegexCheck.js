@@ -32,9 +32,6 @@ const useRegexCheck = (initialState, error, setError) => {
     setError((prev) => ({ ...prev, [inputId]: result }));
   };
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
   return { handleOnRegex };
 };
 
