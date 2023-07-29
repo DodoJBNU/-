@@ -9,6 +9,7 @@ const store = configureStore({
   reducer: {
     // User reducer: email
     user: userReducer,
+    product: productReducer,
   },
 });
 
