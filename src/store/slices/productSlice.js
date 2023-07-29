@@ -1,30 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchProducts } from "../../services/product";
 
 const initialState = {
   products: [],
   loading: false, // 요청을 보냈을 때는 true, 아닌 경우 : 요청이 없었거나, 실패했거나, 성공했을 때, false
-  // error: null, // 에러가 있는 경우에 error.message 값을 담는다.
+  error: null, //  error exist : {message, status}
 };
 
 const productSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
-  reducers: {
-    // reducer는 상태를 변경하는 역할을 한다.
-    getProducts: state => {
+  extraReducers: (builder) => {
+    builder.addCase(getProducts.pending, (state, action) => {
       state.loading = true;
-    },
-    getProductSuccess: (state, action) => {
-      state.products = action.payload.products;
+    });
+    builder.addCase(getProducts.fulfilled, (state, action) => {
       state.loading = false;
-    },
-    getProductsFailed: state => {
+      state.products = action.payload.response; // action.payload : {success, response, error }
+      state.error = action.payload.error;
+    });
+    builder.addCase(getProducts.rejected, (state, action) => {
       state.loading = false;
-    },
+      state.error = action.payload.error;
+    });
   },
 });
 
-export const { getProducts, getProductSuccess, getProductsFailed } =
-  productSlice.actions;
+export const getProducts = createAsyncThunk("products/getProducts", async (page) => {
+  const response = await fetchProducts(page);
+  return response.data;
+});
 
 export default productSlice.reducer;
