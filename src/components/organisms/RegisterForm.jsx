@@ -1,9 +1,11 @@
 import Button from "../atoms/Button";
 import { useEffect, useState } from "react";
 import useInput from "../../hooks/useInput";
-import { register } from "../../services/api";
+import { register } from "../../services/user";
 import useRegexCheck from "../../hooks/useRegexCheck";
 import * as S from "../../styles/organisms/RegisterForm";
+import Links from "../atoms/Links";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const initialState = {
@@ -12,6 +14,8 @@ const RegisterForm = () => {
     password: "",
     passwordConfirm: "",
   };
+  const navigate = useNavigate();
+  const [responseFlag, setResponseFlag] = useState(null);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const [errorData, setErrorData] = useState(initialState);
   const { value, handleOnChange } = useInput(initialState);
@@ -28,11 +32,17 @@ const RegisterForm = () => {
         password: value.password,
         username: value.username,
       });
-      console.log("회원가입 성공", response.data);
+      setResponseFlag(() => response.data.success);
     } catch (error) {
       setServerErrorMsg(() => error.response.data.error.message);
     }
   };
+  useEffect(() => {
+    if (responseFlag === true) {
+      alert("정상적으로 회원가입 되었습니다.");
+      navigate("/login");
+    }
+  }, [responseFlag]);
   return (
     <S.Container>
       <S.InputGroup
@@ -94,6 +104,7 @@ const RegisterForm = () => {
       >
         회원가입
       </S.Button>
+      <S.Link src="/login" children="로그인" />
     </S.Container>
   );
 };
