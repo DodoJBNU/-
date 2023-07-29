@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import container from "../../components/atoms/Container";
 import input from "../../components/atoms/Input";
 import button from "../../components/atoms/Button";
+import Links from "../../components/atoms/Links";
 
 export const Container = styled(container)`
   margin-top: 15vh;
@@ -30,4 +31,9 @@ export const Button = styled.button`
   border: none;
   height: 3rem;
   border-radius: 4px;
+`;
+
+export const Link = styled(Links)`
+  padding-top: 1rem;
+  text-decoration: none;
 `;
