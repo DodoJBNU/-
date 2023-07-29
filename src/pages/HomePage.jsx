@@ -1,7 +1,8 @@
 import MainForm from "../components/organisms/MainForm";
+import MainProductTemplate from "../components/templates/MainProductTemplate";
 
 const HomePage = () => {
-  return <MainForm />;
+  return <MainProductTemplate />;
 };
 
 export default HomePage;
