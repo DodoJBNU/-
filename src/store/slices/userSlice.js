@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { login } from '../../services/api';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { login } from "../../services/user";
 
 const initialState = {
   email: null,
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     // reducer는 상태를 변경하는 역할을 한다.
@@ -17,14 +17,14 @@ const userSlice = createSlice({
       state.email = action.payload.email;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(loginRequest.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(loginRequest.fulfilled, (state, action) => {
       state.loading = false;
       state.email = action.payload.email;
-      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem("token", action.payload.token);
       state.token = action.payload.token;
     });
     builder.addCase(loginRequest.rejected, (state, action) => {
@@ -34,8 +34,8 @@ const userSlice = createSlice({
 });
 
 export const loginRequest = createAsyncThunk(
-  'user/loginRequest', // 첫 번째 파라미터, unique한 key를 받는다.
-  async data => {
+  "user/loginRequest", // 첫 번째 파라미터, unique한 key를 받는다.
+  async (data) => {
     // 두 번째 파라미터, 비동기 async callback 함수
     const { email, password } = data;
     const response = await login({ email, password });
