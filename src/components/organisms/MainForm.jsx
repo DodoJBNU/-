@@ -1,10 +1,10 @@
-import Header from "../molecules/Header";
+import GNB from "../molecules/GNB";
 import Container from "../atoms/Container";
 const MainForm = () => {
   return (
-    <Container>
-      <Header />
-    </Container>
+    <div>
+      <GNB />
+    </div>
   );
 };
 
