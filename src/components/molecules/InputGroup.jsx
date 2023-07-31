@@ -35,7 +35,7 @@ const InputGroup = ({
         onBlur={onBlur}
         className={className}
       />
-      {errorData[name] ? (
+      {!!errorData[name] ? (
         <S.Span style={{ color: "red" }}>{ERROR_MSG[errorData[name]]}</S.Span>
       ) : null}
     </S.Div>
