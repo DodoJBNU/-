@@ -3,7 +3,8 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import MainLayout from "./layout/MainLayout";
-
+import ProductDetailPage from "./pages/ProductDetailPage";
+import "./App.css";
 function App() {
   return (
     <div className="App">
@@ -12,6 +13,7 @@ function App() {
           {/*공통 레이아웃: GNB , Footer*/}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />}></Route>
+            <Route path="/product/:id" element={<ProductDetailPage />}></Route>
           </Route>
           {/*단독 레이아웃 */}
           <Route path="/login" element={<LoginPage />}></Route>
