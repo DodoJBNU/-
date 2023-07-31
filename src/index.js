@@ -6,13 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 import store from "./store";
+import { QueryClient, QueryClientProvider } from "react-query";
 
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CookiesProvider>
       <Provider store={store}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </Provider>
     </CookiesProvider>
   </React.StrictMode>
