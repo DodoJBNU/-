@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/atoms/Loader";
 import { getProductById } from "../services/product";
 import useSWR from "swr";
@@ -10,7 +10,16 @@ const ProductDetailPage = () => {
   const { id } = useParams(); // 이런 방식을 주로 사용.
   const parsedId = parseInt(id, 10); // 10진수로 변환.
   const dispatch = useDispatch();
-  const { data: detail, error, isLoading } = useQuery(`product/${id}`, () => getProductById(id));
+  const navigate = useNavigate();
+  const {
+    data: detail,
+    error,
+    isLoading,
+  } = useQuery(`product/${id}`, () => getProductById(id), {
+    onError: (error) => {
+      navigate("/error");
+    },
+  });
 
   //const { data, error, isLoading } = useSWR(`/product/${id}`, getProductById);
 

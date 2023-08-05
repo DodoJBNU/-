@@ -1,0 +1,13 @@
+.slidercontents {
+  height: 480px;
+  background-image: url(../../../public/image/carouselItem1.jpeg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+
+.wrapText {
+  margin-left: 12%;
+}

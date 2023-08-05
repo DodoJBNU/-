@@ -1,12 +1,3 @@
-picture.card {
-  width: 200px;
-}
-
-picutre > img {
-  width: inherit;
-}
-
-img.card {
-  width: 100%;
-  max-width: 360px;
+body {
+  min-width: 1200px; /* 또는 원하는 최소 너비 */
 }

@@ -1,0 +1,20 @@
+/*
+    display: grid; 명시적으로 행과 열을 나누어서 동작할 때
+    display : flex; 유동적으로 바뀌어야할 때
+*/
+
+.product-grid {
+  min-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 4em;
+  margin: 3em 0;
+  width: 100%;
+  padding: 0 5em;
+}
+
+@media screen and (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

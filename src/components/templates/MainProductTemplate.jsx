@@ -3,6 +3,8 @@ import Container from "../atoms/Container";
 import ProductGrid from "../organisms/ProductGrid";
 import { useEffect, useRef, useState } from "react";
 import { getProducts } from "../../store/slices/productSlice";
+import * as S from "../../styles/templates/MainProductTemplate";
+import Carousel from "../atoms/Carousel";
 
 const MainProductTemplate = () => {
   const [page, setPage] = useState(0);
@@ -34,10 +36,11 @@ const MainProductTemplate = () => {
     dispatch(getProducts(page));
   }, [dispatch, page]);
   return (
-    <Container>
-      <ProductGrid products={products} />
+    <div>
+      <Carousel />
+      <S.ProductGrid products={products} />
       <div ref={bottomObserver}></div>
-    </Container>
+    </div>
   );
 };
 
